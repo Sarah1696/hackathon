@@ -11,7 +11,7 @@ export async function listIdeas(req, res) {
 }
 
 export async function getIdea(req, res) {
-    const { id } = req.params;
+    const id = req.query.id;
     try {
         const [rows] = await Ideas.getIdea(id);
         if (!rows.length) return res.status(404).json({ error: 'Idée non trouvée' });
