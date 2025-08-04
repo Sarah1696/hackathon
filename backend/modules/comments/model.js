@@ -10,6 +10,12 @@ export default class CommentsModel {
         const query = `INSERT INTO comments (idea_id, user_id, content, created_at) VALUES (?, ?, ?, NOW())`;
         const values = [idea_id, user_id, content];
         const response = await db_sql.query(query, values);
-        return response;
+        return {
+            id: response.insertId,
+            idea_id,
+            user_id,
+            content,
+            created_at: new Date()
+        };
     }
 }
