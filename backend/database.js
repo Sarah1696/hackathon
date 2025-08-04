@@ -10,4 +10,3 @@ const db_sql = await mysql.createConnection({
 
 export default db_sql;
 
-
