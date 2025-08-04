@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import './App.css'
 import Home from './vues/home'
 import Login from './vues/login'
 import Register from './vues/register'
