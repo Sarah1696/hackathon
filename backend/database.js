@@ -7,4 +7,6 @@ const db_sql = await mysql.createConnection({
     database:'hackathon'
 })
 
+
 export default db_sql;
+
