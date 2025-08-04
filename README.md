@@ -6,6 +6,7 @@
 npm i   express
         cors
         body-parser
+        nodemon
         dotenv
         jsonwebtoken
         mysql2
