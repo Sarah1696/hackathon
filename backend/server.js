@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import path from 'path'
 import commentsRoutes from './modules/comments/routes.js'
 
+import ideasRoutes from './modules/ideas/routes.js';
+
 const app = express()
 const PORT = 3000
 
@@ -13,6 +15,10 @@ app.use(cors())
 app.use('/api/comments', commentsRoutes)
 
 app.use (bodyParser.urlencoded({ extended : true}))
+
+app.use('/api/ideas', ideasRoutes);
+
+
 
 app.get('/', (req, res) => {
     res.send(path.join(path.resolve(), '../frontend/index.html'))
