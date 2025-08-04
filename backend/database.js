@@ -6,3 +6,5 @@ const db_sql = await mysql.createConnection({
     password:'1234',
     database:'hackathon'
 })
+
+export default db_sql
