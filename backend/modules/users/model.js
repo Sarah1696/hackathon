@@ -69,4 +69,4 @@ const isValid = await argon2.verify(user.password, password)
 
 
 }
-export default UserModel()
+export default new UserModel()

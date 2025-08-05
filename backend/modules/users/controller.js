@@ -26,34 +26,30 @@ async createUser(req, res) {
   }
 }
 
-async loginUser(req, res) {
-  try {
-    const { email, password } = req.body;
+async  login(req, res) {
+  const { email, password } = req.body;
 
-   
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email et mot de passe requis.' });
-    }
+ 
+  const user = await UsersService.loginUser(email, password); 
+  console.log(user)
+const JWT_SECRET = "monsecretjwt123"
+ 
+  const token = jwt.sign(
+    { id: user._id, email: user.email }, 
+    JWT_SECRET,
+    { expiresIn: '1h' }
+  );
 
+ 
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: false, 
     
-    const result = await UserModel.loginUser(email, password);
+    maxAge: 3600000 
+  });
 
-    if (!result.success) {
-      return res.status(401).json({ error: result.message });
-    }
-
-    
-    return res.status(200).json({
-      message: 'Connexion réussie',
-      user: result.user
-    });
-
-  } catch (error) {
-    console.error(' Erreur dans loginUserController :', error.message);
-    return res.status(500).json({ error: 'Erreur serveur lors de la connexion.' });
-  }
+  res.status(200).json({ message: 'Connexion réussie' });
 }
-
 
 
 
@@ -61,4 +57,4 @@ async loginUser(req, res) {
 
 }
 
-export default UserController
+export default new UserController()
