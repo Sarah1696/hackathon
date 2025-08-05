@@ -61,4 +61,4 @@ async loginUser(req, res) {
 
 }
 
-export default UserController
+export default new UserController
