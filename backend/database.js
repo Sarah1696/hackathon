@@ -1,10 +1,13 @@
 import mysql from 'mysql2/promise.js'
+import dotenv from 'dotenv';
 
-const db_sql = await mysql.createConnection({
-    host: 'mysql-afechackathon.alwaysdata.net',
-    user: '425308',
-    password: '@France1!', 
-    database: 'afechackathon_db'
+dotenv.config();
+
+const db_sql = await mysql.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME
 })
 
 export default db_sql;

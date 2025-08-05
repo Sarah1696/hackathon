@@ -3,7 +3,7 @@ import UserModel from './model.js'
 
 class UserController{
 
-async createUser(req, res) {
+createUser = async (req, res) => {
   try {
     const { lastname, firstname, email, password } = req.body;
 
@@ -26,7 +26,7 @@ async createUser(req, res) {
   }
 }
 
-async loginUser(req, res) {
+loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
