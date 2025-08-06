@@ -6,7 +6,7 @@ export default class CategoriesModel{
         return response
     }
 
-    static async postCategories({name}) {
+    /*static async postCategories({name}) {
         const query = `INSERT INTO categories (name) VALUES (?)`;
         const values = [name];
         const response = await db_sql.query(query, values);
@@ -14,5 +14,5 @@ export default class CategoriesModel{
             id : response.insertId,
             name
         }
-    }
+    }*/
 }
