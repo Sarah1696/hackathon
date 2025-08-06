@@ -18,14 +18,23 @@ const PORT = 3000
 app.use(express.json())
 app.use(cors())
 
-app.use(limiter) // Applique le middleware de limitation de débit
+
+app.use('/api/users', limiter, usersRoutes);
+
+app.use('/api/comments/getComments', commentsRoutes)
+app.use('api/comments/postComments', limiter, commentsRoutes)
+
+app.use('/api/ideas/getIdeas', ideasRoutes);
+app.use('/api/ideas/getIdea', ideasRoutes);
+app.use('/api/ideas/postIdea', limiter, ideasRoutes);
+
+app.use('/api/categories/getCategories', categoriesRoutes);
+app.use('/api/categories/postCategories', limiter, categoriesRoutes);
 
 
-app.use('/api/comments', commentsRoutes)
 app.use('/api/votes', votesRoutes)
-app.use('/api/ideas', ideasRoutes);
-app.use('/api/users', usersRoutes);
-app.use('/api/categories', categoriesRoutes);
+
+
 
 app.use (bodyParser.urlencoded({ extended : true}))
 
