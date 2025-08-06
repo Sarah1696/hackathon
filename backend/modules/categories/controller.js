@@ -11,7 +11,7 @@ export default class CategoriesController{
         }
     }
 
-    static async postCategories (req, res){
+    /*static async postCategories (req, res){
         try{
             const {name} = req.body
             const newCategories = await CategoriesModel.postCategories({name})
@@ -20,5 +20,5 @@ export default class CategoriesController{
             console.error('CategoriesController.postComment :', error)
             res.status(500).json({message : "Erreur lors de l'ajout de la categories"})
         }
-    }
+    }*/
 }
