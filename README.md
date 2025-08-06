@@ -12,4 +12,5 @@ npm i   express
         mysql2
         react-router-dom
         bootstrap
+        express-rate-limit
 
