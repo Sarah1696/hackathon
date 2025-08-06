@@ -43,7 +43,7 @@ const Login = () => {
     return (
         <div>
             <Header />
-            <div className="container mt-5">
+            <div className="form-container mt-5">
                 <h3>Connexion</h3>
             <form onSubmit={handleSubmit} className="mt-4">
                 <div className="mb-3">
