@@ -18,7 +18,8 @@ const PORT = 3000
 app.use(express.json())
 app.use(cors())
 
-app.use(limiter) // Apply rate limiting middleware
+app.use(limiter) // Applique le middleware de limitation de débit
+
 
 app.use('/api/comments', commentsRoutes)
 app.use('/api/votes', votesRoutes)
