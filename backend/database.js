@@ -1,4 +1,7 @@
 import mysql from 'mysql2/promise.js'
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const db_sql = await mysql.createConnection({
     host:'localhost',
@@ -9,6 +12,4 @@ const db_sql = await mysql.createConnection({
     database:'hackathon'
 })
 
-
 export default db_sql;
-

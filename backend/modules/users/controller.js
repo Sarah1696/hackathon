@@ -3,7 +3,7 @@ import UserModel from './model.js'
 
 class UserController{
 
-async createUser(req, res) {
+createUser = async (req, res) => {
   try {
     const { lastname, firstname, email, password } = req.body;
 
@@ -26,8 +26,9 @@ async createUser(req, res) {
   }
 }
 
-async  login(req, res) {
-  const { email, password } = req.body;
+loginUser = async (req, res) => {
+   
+    const { email, password } = req.body;
 
  
   const user = await UsersService.loginUser(email, password); 
@@ -55,6 +56,7 @@ const JWT_SECRET = "monsecretjwt123"
 
 
 
+
 }
 
-export default new UserController()
+export default new UserController
