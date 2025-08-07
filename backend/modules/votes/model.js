@@ -35,6 +35,24 @@ const checkUserVote = async (userId, ideaId) => {
 // Fonction pour ajouter un vote
 const addVote = async (userId, ideaId) => {
     try {
+        // Vérifier si l'utilisateur existe
+        const [userCheck] = await database.execute(
+            'SELECT id FROM users WHERE id = ?',
+            [userId]
+        )
+        if (userCheck.length === 0) {
+            return { success: false, message: 'Utilisateur inexistant' }
+        }
+
+        // Vérifier si l'idée existe
+        const [ideaCheck] = await database.execute(
+            'SELECT id FROM ideas WHERE id = ?',
+            [ideaId]
+        )
+        if (ideaCheck.length === 0) {
+            return { success: false, message: 'Idée inexistante' }
+        }
+
         // D'abord vérifier si l'utilisateur n'a pas déjà voté
         const alreadyVoted = await checkUserVote(userId, ideaId)
         if (alreadyVoted) {
