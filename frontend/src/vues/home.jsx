@@ -5,10 +5,16 @@ import TopIdee from "../components/Home/topidee"
 
 const Home = () => {
     return (
-        <div>
+        <div style={{
+            minHeight: '100vh',
+            display: 'flex',
+            flexDirection: 'column'
+        }}>
             <Header />
-            <Presentation/>
-            <TopIdee/>
+            <main style={{ flex: '1' }}>
+                <Presentation/>
+                <TopIdee/>
+            </main>
             <Footer/>
         </div>
     )
