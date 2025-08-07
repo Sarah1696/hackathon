@@ -10,9 +10,9 @@ class UserController{
 
 createUser = async (req, res) => {
   try {
-    const { lastname, name, email, password, confirmPassword } = req.body;
+    const { lastname, firstname, email, password, confirmPassword } = req.body;
 
-    if (!lastname || !name || !email || !password ||!confirmPassword) {
+    if (!lastname || !firstname || !email || !password ||!confirmPassword) {
       return res.status(400).json({ error: 'Tous les champs sont obligatoires.' });
     }
   if(password !==confirmPassword){
@@ -25,8 +25,8 @@ createUser = async (req, res) => {
     
     const hashedPassword = await argon2.hash(password);
     
-  console.log({ lastname, name, email, password });
-    const result = await UserModel.createUser({lastname, name, email,
+  
+    const result = await UserModel.createUser({lastname, firstname, email,
       password: hashedPassword});
 
     if (!result.success) {
@@ -44,7 +44,7 @@ const verificationUrl = `${CLIENT_URL}/api/users/verify/${verificationToken}`
 await sendEmail({
   to: email,
   subject: 'Verification de votre compte',
-  html: `Bonjour ${name},<br><br>
+  html: `Bonjour ${firstname},<br><br>
       Veuillez cliquer sur le lien suivant pour vérifier votre compte : 
       <a href="${verificationUrl}">Vérifier mon compte</a><br><br>
       Si vous n'avez pas créé ce compte, veuillez ignorer cet email.`
@@ -134,7 +134,7 @@ return res.status(201).json({message: 'Utilisateur créé avec succès. Vérifie
       message: 'Connexion réussie',
       user: {
         id: user.id,
-        name: user.name,
+        name: user.firstname,
         lastname: user.lastname,
         email: user.email,
         
@@ -169,7 +169,7 @@ const CLIENT_URL=process.env.CLIENT_URL
     await sendEmail({
       to: user.email,
       subject: 'Réinitialisation de votre mot de passe',
-      html: `Bonjour ${user.name},<br><br>
+      html: `Bonjour ${user.firstname},<br><br>
         Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe : 
         <a href="${resetUrl}">Réinitialiser mon mot de passe</a><br><br>
         Si vous n'avez pas demandé cette réinitialisation, veuillez ignorer cet email.`,
@@ -216,7 +216,7 @@ const CLIENT_URL=process.env.CLIENT_URL
 
 
 
-async  resendVerificationEmail(req, res) {
+/* async  resendVerificationEmail(req, res) {
   const { email } = req.body;
 
   try {
@@ -236,7 +236,7 @@ async  resendVerificationEmail(req, res) {
     await sendEmail({
       to: user.email,
       subject: "Nouveau lien de vérification",
-      html: `Bonjour ${user.name},<br><br>
+      html: `Bonjour ${user.firstname},<br><br>
         Voici un nouveau lien pour vérifier votre compte : 
         <a href="${verificationUrl}">Vérifier mon compte</a><br><br>
         Ce lien est valable 24h.`,
@@ -252,7 +252,7 @@ async  resendVerificationEmail(req, res) {
       message: "Erreur lors de l’envoi du lien de vérification.",
     });
   }
-}
+} */
 
 
  async  logoutUser(req, res) { 
