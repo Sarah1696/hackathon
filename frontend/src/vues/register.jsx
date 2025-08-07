@@ -33,7 +33,7 @@ const Register = () => {
 
         if (res.ok) {
             setMessage(`${data.message}`);
-            setFormData({ lastname: '', firstname: '', email: '', password: '' });
+            setFormData({ lastname: '', firstname: '', email: '', password: '', confirmPassword: '' });
         } else {
             setMessage(`${data.error}`);
         }
@@ -64,6 +64,10 @@ const Register = () => {
             <div className="mb-3">
                 <label className="form-label">Mot de passe</label>
                 <input type="password" className="form-control" name="password" value={formData.password} onChange={handleChange} required />
+            </div>
+            <div className="mb-3">
+                <label className="form-label">Confirmer le mot de passe</label>
+                <input type="password" className="form-control" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
             </div>
             <button type="submit" className="btn btn-primary">S'inscrire</button>
             </form>

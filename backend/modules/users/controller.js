@@ -1,10 +1,7 @@
 import UserModel from './model.js'
 import argon2 from "argon2"
-import sendEmail from '../../utils/sendEmail.js';
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
-import { generateVerificationToken } from '../../utils/sendEmail.js';
-import dotenv from 'dotenv'
 
 class UserController{
 
@@ -40,7 +37,7 @@ createUser = async (req, res) => {
 {expiresIn: '1d'})
 const CLIENT_URL = process.env.CLIENT_URL;
 
-const verificationUrl = `${CLIENT_URL}/api/users/verify/${verificationToken}`
+const verificationUrl = `${CLIENT_URL}/verify?token=${verificationToken}`;
 await sendEmail({
   to: email,
   subject: 'Verification de votre compte',
@@ -164,7 +161,7 @@ const CLIENT_URL=process.env.CLIENT_URL
     const resetToken = crypto.randomBytes(32).toString('hex');
     await UserModel.savePasswordResetToken(user.id, resetToken);
 
-    const resetUrl = `${CLIENT_URL}/api/users/reset-password/${resetToken}`;
+    const resetUrl = `${CLIENT_URL}/reset-password?token=${resetToken}`;
 
     await sendEmail({
       to: user.email,
