@@ -75,18 +75,30 @@ const FormIdeas = ({ ideas }) => {
           <button
             onClick={() => toggleVote(idea.id)}
             style={{
-              background: "none",
-              border: "none",
+              background: userVotes[idea.id] ? "#007bff" : "none", // Fond bleu si voté
+              border: userVotes[idea.id] ? "2px solid #0056b3" : "none", // Bordure bleue si voté
+              borderRadius: "50%", // Forme ronde
+              padding: "3px", // Padding réduit
+              width: "32px", // Largeur fixe
+              height: "32px", // Hauteur fixe
               cursor: "pointer",
-              fontSize: "1.5rem",
               marginTop: "0.5rem",
+              transition: "all 0.3s ease", // Animation douce
+              display: "flex", // Pour centrer l'icône
+              alignItems: "center", // Centrer verticalement
+              justifyContent: "center" // Centrer horizontalement
             }}
             aria-label="J'aime"
           >
             <img
               src={userVotes[idea.id] ? "/pouces-vers-le-haut (1).png" : "/pouces-vers-le-haut.png"}
               alt="J'aime"
-              style={{ width: "24px", height: "24px" }}
+              style={{
+                width: "18px", // Taille réduite pour s'adapter au bouton
+                height: "18px",
+                // Inverser la couleur si voté (blanc sur fond bleu)
+                filter: userVotes[idea.id] ? "invert(1)" : "none"
+              }}
             />
           </button>
         </div>
