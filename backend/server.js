@@ -26,7 +26,12 @@ app.use('/api/ideas', ideasRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/categories', categoriesRoutes);
 
+
 app.use (bodyParser.urlencoded({ extended : true}))
+app.use('/api/users', usersRoutes);
+
+
+
 
 app.get('/', (req, res) => {
     res.send(path.join(path.resolve(), '../frontend/index.html'))

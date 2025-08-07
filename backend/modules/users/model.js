@@ -1,5 +1,6 @@
 import db_sql from '../../database.js'
-import argon2 from "argon2"
+import crypto from 'crypto'
+import  argon2  from 'argon2';
 class UserModel{
 
 async findUserByEmail(email) {
@@ -8,15 +9,22 @@ async findUserByEmail(email) {
     return rows[0] || null;
   }
 
-async createUser(lastname, firstname, email, password) {
+ async findUserById(userId) {
+  const sql = `SELECT * FROM users WHERE id = ? LIMIT 1`;
+  const [rows] = await db_sql.execute(sql, [userId]);
+  return rows[0]; 
+}
+
+
+async createUser({lastname, firstname, email, password}) {
   try { 
-    const hashedPassword = await argon2.hash(password)
+    
     const sql = `
       INSERT INTO users (lastname, firstname, email, password)
       VALUES (?, ?, ?, ?)
     `;
 
-    const [result] = await db_sql.execute(sql, [lastname, firstname, email, hashedPassword]);
+    const [result] = await db_sql.execute(sql, [lastname, firstname, email, password]);
 
     console.log('Utilisateur créé avec ID :', result.insertId);    
 
@@ -28,45 +36,43 @@ async createUser(lastname, firstname, email, password) {
   }
 }
 
-async loginUser(email, password) {
-    try {
-      const user = await this.findUserByEmail(email);
+ async  savePasswordResetToken(userId, token) {
+  const resetTokenHash = crypto.createHash('sha256').update(token).digest('hex');
+  const expiration = new Date(Date.now() + 604800000); 
 
-      if (!user) {
-        return { success: false, message: 'Email incorrect ou utilisateur non trouvé.' };
-      }
+  await db_sql.execute(`
+    UPDATE users 
+    SET resetPasswordToken = ?, resetPasswordExpire = ? 
+    WHERE id = ?
+  `, [resetTokenHash, expiration, userId]);
 
-const isValid = await argon2.verify(user.password, password)
+  return resetTokenHash;
+}
+ async  findUserByResetToken(tokenHash) {
+  const sql = `
+    SELECT * FROM users 
+    WHERE resetPasswordToken = ? AND resetPasswordExpire > NOW()
+    LIMIT 1
+  `;
+  const [rows] = await db_sql.execute(sql, [tokenHash]);
+  return rows[0]; 
+}
 
-     
-      if (!isValid) {
-        return { success: false, message: 'Email ou mot de passe incorrect.' };
-      }
+async  updateUserPassword(userId, newPassword) {
+  const hashedPassword = await argon2.hash(newPassword); 
+  const sql = `
+    UPDATE users 
+    SET password = ?, resetPasswordToken = NULL, resetPasswordExpire = NULL 
+    WHERE id = ?
+  `;
+  await db_sql.execute(sql, [hashedPassword, userId]);
+}
 
-       
-
-      return {
-        success: true,
-        user: {
-          id: user.id,
-          lastname: user.lastname,
-          firstname: user.firstname,
-          email: user.email
-          
-        }
-      };
-
-    } catch (error) {
-      console.error('Erreur lors de la connexion :', error.message);
-      return { success: false, message: 'Erreur serveur.' };
-    }
-  }
-
-
-
-
-
-
+ async  markUserAsVerified(userId) {
+  const sql = `UPDATE users SET isVerified = 1 WHERE id = ?`;
+  const [result] = await db_sql.execute(sql, [userId]);
+  return result;
+}
 
 }
 export default new UserModel()
