@@ -20,7 +20,8 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch('http://localhost:3000/api/users/login', {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/login`, {
+
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -53,6 +54,9 @@ const Login = () => {
                 <div className="mb-3">
                     <label className="form-label">Mot de passe</label>
                     <input type="password" className="form-control" name="password" value={formData.password} onChange={handleChange} required />
+                    <div className="mt-1">
+                    <a href="/reset-password-request">Mot de passe oublié ?</a>
+                    </div>
                 </div>
                 <button type="submit" className="btn btn-primary">Se connecter</button>
             </form>
