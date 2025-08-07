@@ -1,5 +1,6 @@
 import db_sql from '../../database.js'
 import crypto from 'crypto'
+import  argon2  from 'argon2';
 class UserModel{
 
 async findUserByEmail(email) {
@@ -15,15 +16,15 @@ async findUserByEmail(email) {
 }
 
 
-async createUser({lastname, name, email, password}) {
+async createUser({lastname, firstname, email, password}) {
   try { 
-    console.log({ lastname, name, email, password });
+    
     const sql = `
-      INSERT INTO users (lastname, name, email, password)
+      INSERT INTO users (lastname, firstname, email, password)
       VALUES (?, ?, ?, ?)
     `;
 
-    const [result] = await db_sql.execute(sql, [lastname, name, email, password]);
+    const [result] = await db_sql.execute(sql, [lastname, firstname, email, password]);
 
     console.log('Utilisateur créé avec ID :', result.insertId);    
 
