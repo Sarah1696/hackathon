@@ -24,7 +24,7 @@ const Ideas = () => {
   // Fonction pour récupérer toutes les idées depuis l'API
   const fetchIdeas = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/ideas/getIdeas");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/ideas/getIdeas`);
       if (!res.ok) throw new Error("Erreur lors du chargement des idées");
       const data = await res.json();
       setIdeas(data);
@@ -36,7 +36,8 @@ const Ideas = () => {
   // Fonction pour récupérer toutes les catégories depuis l'API
   const fetchCategories = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/categories/getCategories");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/categories/getCategories`);
+
       if (!res.ok) throw new Error("Erreur lors du chargement des catégories");
       const data = await res.json();
       // L'API retourne un format spécial, on prend le premier élément du tableau

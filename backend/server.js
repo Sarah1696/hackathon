@@ -14,12 +14,12 @@ import categoriesRoutes from './modules/categories/routes.js';
 const app = express()
 const PORT = 3000
 
+// Middlewares globaux (AVANT les routes)
 app.use(express.json())
 app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true}))
 
-
-
-
+// Routes API
 app.use('/api/comments', commentsRoutes)
 app.use('/api/votes', votesRoutes)
 app.use('/api/ideas', ideasRoutes);
@@ -27,8 +27,8 @@ app.use('/api/users', usersRoutes);
 app.use('/api/categories', categoriesRoutes);
 
 
-app.use (bodyParser.urlencoded({ extended : true}))
 
+app.use (bodyParser.urlencoded({ extended : true}))
 
 
 
