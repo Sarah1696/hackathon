@@ -24,6 +24,9 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log("Form data before sending:", formData); 
+
+
         // Validation côté frontend
         if (formData.password !== formData.confirmPassword) {
             setMessage('Les mots de passe ne correspondent pas.');
@@ -37,12 +40,14 @@ const Register = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
         });
-
+console.log("Response status:", res.status);
         const data = await res.json();
-
+console.log("Response data:", data);
         if (res.ok) {
             setMessage(`${data.message}`);
-            setFormData({ lastname: '', firstname: '', email: '', password: '', confirmPassword: '' });
+
+            setFormData({ lastname: '', firstname: '', email: '', password: '', confirmPassword:'' });
+
         } else {
             setMessage(`${data.error}`);
         }
@@ -75,6 +80,7 @@ const Register = () => {
                 <input type="password" className="form-control" name="password" value={formData.password} onChange={handleChange} required />
             </div>
             <div className="mb-3">
+
                 <label className="form-label">Confirmer le mot de passe</label>
 
                 <input
@@ -95,7 +101,6 @@ const Register = () => {
                         Les mots de passe correspondent !
                     </div>
                 )}
-
             </div>
             <button type="submit" className="btn btn-primary">S'inscrire</button>
             </form>

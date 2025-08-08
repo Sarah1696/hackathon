@@ -28,6 +28,10 @@ app.use('/api/categories', categoriesRoutes);
 
 
 
+app.use (bodyParser.urlencoded({ extended : true}))
+
+
+
 
 app.get('/', (req, res) => {
     res.send(path.join(path.resolve(), '../frontend/index.html'))

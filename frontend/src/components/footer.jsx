@@ -1,5 +1,6 @@
 const Footer = () => {
     return (
+
         <footer style={{
             backgroundColor: '#f8f9fa',
             borderTop: '1px solid #dee2e6',
@@ -15,6 +16,7 @@ const Footer = () => {
                     fontSize: '14px'
                 }}>
                     © 2025 Hackathon - Boîte à Idées | Tous droits réservés
+
                 </p>
             </div>
         </footer>
