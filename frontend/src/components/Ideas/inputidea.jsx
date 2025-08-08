@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const InputIdea = ({ onNewIdea }) => {
     const [showForm, setShowForm] = useState(false);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const [categoryId, setCategoryId] = useState(1);
+    const [categories, setCategories] = useState([]);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
+
+    useEffect(() => {
+        fetch("http://localhost:3000/api/categories/getCategories")
+            .then(res => res.json())
+            .then(data => setCategories(data[0] || []))
+            .catch(err => console.error(err));
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -16,8 +25,8 @@ const InputIdea = ({ onNewIdea }) => {
                 body: JSON.stringify({
                     title,
                     content,
-                    category_id: 1,   // a adapter avec un fetch categories
-                    user_id: 1,   // a adapter avec les users
+                    category_id: categoryId,
+                    user_id: 1,
                 }),
             });
 
@@ -29,6 +38,7 @@ const InputIdea = ({ onNewIdea }) => {
             setError(null);
             setTitle("");
             setContent("");
+            setCategoryId(1);
             setShowForm(false);
 
             // Appeler la fonction passée en prop pour rafraîchir la liste
@@ -68,6 +78,16 @@ const InputIdea = ({ onNewIdea }) => {
                             required
                             className="form-control mb-2"
                         />
+                        <select
+                            value={categoryId}
+                            onChange={(e) => setCategoryId(parseInt(e.target.value))}
+                            className="form-control mb-2"
+                            required
+                        >
+                            {categories.map(cat => (
+                                <option key={cat.id} value={cat.id}>{cat.name}</option>
+                            ))}
+                        </select>
                         <button type="submit" className="btn btn-primary">
                             Publier l'idée
                         </button>

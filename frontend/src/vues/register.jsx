@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Footer from "../components/footer"
 import Header from "../components/header"
 
@@ -8,7 +8,8 @@ const Register = () => {
         lastname: '',
         firstname: '',
         email: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
     });
 
     const [message, setMessage] = useState('');
@@ -22,6 +23,13 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validation côté frontend
+        if (formData.password !== formData.confirmPassword) {
+            setMessage('Les mots de passe ne correspondent pas.');
+            return;
+        }
+
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/register`, {
 
@@ -68,7 +76,26 @@ const Register = () => {
             </div>
             <div className="mb-3">
                 <label className="form-label">Confirmer le mot de passe</label>
-                <input type="password" className="form-control" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
+
+                <input
+                    type="password"
+                    className={`form-control ${formData.confirmPassword && (formData.password === formData.confirmPassword ? 'is-valid' : 'is-invalid')}`}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    required
+                />
+                {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                    <div className="invalid-feedback">
+                        Les mots de passe ne correspondent pas.
+                    </div>
+                )}
+                {formData.confirmPassword && formData.password === formData.confirmPassword && (
+                    <div className="valid-feedback">
+                        Les mots de passe correspondent !
+                    </div>
+                )}
+
             </div>
             <button type="submit" className="btn btn-primary">S'inscrire</button>
             </form>

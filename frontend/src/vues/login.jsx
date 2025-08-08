@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Footer from "../components/footer"
 import Header from "../components/header"
 
@@ -7,7 +7,8 @@ const Login = () => {
         email: '',
         password: ''
     });
-
+    const [isNotRobot, setIsNotRobot] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
     const [message, setMessage] = useState('');
   
     const handleChange = (e) => {
@@ -19,19 +20,31 @@ const Login = () => {
   
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!isNotRobot) {
+            setMessage('Veuillez confirmer que vous n\'êtes pas un robot.');
+            return;
+        }
+
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/login`, {
 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
+            body: JSON.stringify({...formData, rememberMe})
             });
     
             const data = await res.json();
     
             if (res.ok) {
             setMessage(`${data.message}`);
-            
+            if (rememberMe && data.token) {
+                localStorage.setItem('token', data.token);
+            }
+            // Sauvegarder aussi les infos utilisateur
+            if (data.user) {
+                localStorage.setItem('user', JSON.stringify(data.user));
+            }
+            setTimeout(() => window.location.href = '/ideas', 1500);
             } else {
             setMessage(`${data.error}`);
             }
@@ -58,7 +71,15 @@ const Login = () => {
                     <a href="/reset-password-request">Mot de passe oublié ?</a>
                     </div>
                 </div>
-                <button type="submit" className="btn btn-primary">Se connecter</button>
+                <div className="mb-3 form-check">
+                    <input type="checkbox" className="form-check-input" id="robotCheck" checked={isNotRobot} onChange={(e) => setIsNotRobot(e.target.checked)} required />
+                    <label className="form-check-label" htmlFor="robotCheck">Je ne suis pas un robot</label>
+                </div>
+                <div className="mb-3 form-check">
+                    <input type="checkbox" className="form-check-input" id="rememberCheck" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
+                    <label className="form-check-label" htmlFor="rememberCheck">Se souvenir de moi</label>
+                </div>
+                <button type="submit" className="btn btn-primary" disabled={!isNotRobot}>Se connecter</button>
             </form>
             {message && <div className="mt-3 alert alert-info">{message}</div>}
             </div>

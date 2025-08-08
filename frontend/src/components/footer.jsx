@@ -1,11 +1,20 @@
 const Footer = () => {
     return (
-        <footer>
-            <div>
-                <hr style={{ width: "100%", margin: "0.5rem 0" }} />
-                <p style={{ margin: 0 }}>
-                    © 2020 Copyright :{" "}
-                    Hackathon                   
+        <footer style={{
+            backgroundColor: '#f8f9fa',
+            borderTop: '1px solid #dee2e6',
+            marginTop: 'auto',
+            padding: '20px 0',
+            textAlign: 'center',
+            width: '100%'
+        }}>
+            <div className="container">
+                <p style={{
+                    margin: 0,
+                    color: '#6c757d',
+                    fontSize: '14px'
+                }}>
+                    © 2025 Hackathon - Boîte à Idées | Tous droits réservés
                 </p>
             </div>
         </footer>

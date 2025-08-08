@@ -85,27 +85,15 @@
 
 
 
-footer {
-    background-color: #f1f1f1;
-    padding: 1rem 0;
-    text-align: center;
-    border-top: 1px solid #ddd;
-    width: 100%;
-}
-
-footer p {
-    margin: 0;
-    color: #555;
-    font-size: 0.9rem;
-}
-
-footer hr {
-    border: none;
-    border-top: 1px solid #ddd;
-    margin: 0.5rem 0;
-}
-
 html, body {
     min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
