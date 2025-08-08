@@ -31,7 +31,8 @@ const Register = () => {
         }
 
         try {
-            const res = await fetch('http://localhost:3000/api/users/register', {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/register`, {
+
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -75,6 +76,7 @@ const Register = () => {
             </div>
             <div className="mb-3">
                 <label className="form-label">Confirmer le mot de passe</label>
+
                 <input
                     type="password"
                     className={`form-control ${formData.confirmPassword && (formData.password === formData.confirmPassword ? 'is-valid' : 'is-invalid')}`}
@@ -93,6 +95,7 @@ const Register = () => {
                         Les mots de passe correspondent !
                     </div>
                 )}
+
             </div>
             <button type="submit" className="btn btn-primary">S'inscrire</button>
             </form>
