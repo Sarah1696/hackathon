@@ -78,8 +78,8 @@ return res.status(201).json({message: 'Utilisateur créé avec succès. Vérifie
     }
 
     await UserModel.markUserAsVerified(user.id); 
-
-    res.json({ message: 'Votre compte a été vérifié avec succès' });
+     res.redirect(`${process.env.CLIENT_FRONT}/login`); 
+     
 
   } catch (error) {
     console.error("Erreur lors de la vérification de l'email:", error);
@@ -92,24 +92,27 @@ return res.status(201).json({message: 'Utilisateur créé avec succès. Vérifie
   try {
     const { email, password } = req.body;
 
-    
+    console.log('Requête reçue avec :', { email, password });
     if (!email || !password) {
       return res.status(400).json({ message: 'Veuillez remplir tous les champs' });
     }
 
     
     const user = await UserModel.findUserByEmail(email);
+    console.log('Utilisateur trouvé ?', user ? 'Oui' : 'Non');
     if (!user) {
       return res.status(404).json({ message: 'Utilisateur non trouvé' });
     }
 
     
     if (!user.isVerified) {
+      console.log('Utilisateur non vérifié');
       return res.status(400).json({ message: 'Veuillez vérifier votre compte avant de vous connecter' });
     }
 
    
     const isMatch = await argon2.verify(user.password, password);
+    console.log('Mot de passe correct ?', isMatch);
     if (!isMatch) {
       return res.status(400).json({ message: 'Email ou mot de passe incorrect' });
     }
@@ -128,7 +131,7 @@ return res.status(201).json({message: 'Utilisateur créé avec succès. Vérifie
       sameSite: 'Strict',
       maxAge: 604800000,
     });
-
+console.log('Cookie envoyé avec le token');
     
     res.json({
       message: 'Connexion réussie',

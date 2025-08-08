@@ -8,7 +8,8 @@ const Register = () => {
         lastname: '',
         firstname: '',
         email: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
     });
 
     const [message, setMessage] = useState('');
@@ -22,18 +23,19 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Form data before sending:", formData); 
         try {
             const res = await fetch('http://localhost:3000/api/users/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
         });
-
+console.log("Response status:", res.status);
         const data = await res.json();
-
+console.log("Response data:", data);
         if (res.ok) {
             setMessage(`${data.message}`);
-            setFormData({ lastname: '', firstname: '', email: '', password: '' });
+            setFormData({ lastname: '', firstname: '', email: '', password: '', confirmPassword:'' });
         } else {
             setMessage(`${data.error}`);
         }
@@ -64,6 +66,10 @@ const Register = () => {
             <div className="mb-3">
                 <label className="form-label">Mot de passe</label>
                 <input type="password" className="form-control" name="password" value={formData.password} onChange={handleChange} required />
+            </div>
+            <div className="mb-3">
+                <label className="form-label">Confirm le mot de passe</label>
+                <input type="password" className="form-control" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
             </div>
             <button type="submit" className="btn btn-primary">S'inscrire</button>
             </form>

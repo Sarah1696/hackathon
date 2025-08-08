@@ -28,7 +28,7 @@ app.use('/api/categories', categoriesRoutes);
 
 
 app.use (bodyParser.urlencoded({ extended : true}))
-app.use('/api/users', usersRoutes);
+
 
 
 

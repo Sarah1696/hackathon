@@ -4,10 +4,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const db_sql = await mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME
+    host:'localhost',
+   
+    user:'root',
+    password:'654321',
+    database:'user_hack'
+
 })
 
 export default db_sql;
